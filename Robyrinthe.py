@@ -6,6 +6,17 @@ import time
 import os
 import glob
 
+AVANT_DROIT_AVANT = 12
+AVANT_DROIT_ARRIERE = 16
+AVANT_GAUCHE_AVANT = 6
+AVANT_GAUCHE_ARRIERE = 13
+ARRIERE_DROIT_AVANT = 20
+ARRIERE_DROIT_ARRIERE = 21
+ARRIERE_GAUCHE_AVANT = 19
+ARRIERE_GAUCHE_ARRIERE = 26
+DETECTEUR_AVANT = 4
+DETECTEUR_GAUCHE = 17
+DETECTEUR_DROIT = 18
 #Initialise les ports GPIO
 def setGPIO():
 	#Initialisation GPIO
@@ -14,27 +25,27 @@ def setGPIO():
 	#Deffinition des sorties GPIO
 
 	#Avant Droit
-	GPIO.setup(12,GPIO.OUT)
-	GPIO.setup(16,GPIO.OUT)
+	GPIO.setup(AVANT_DROIT_AVANT,GPIO.OUT)
+	GPIO.setup(AVANT_DROIT_ARRIERE,GPIO.OUT)
 	#Avant Gauche
-	GPIO.setup(	,GPIO.OUT)
-	GPIO.setup(13,GPIO.OUT)
+	GPIO.setup(AVANT_GAUCHE_AVANT,GPIO.OUT)
+	GPIO.setup(AVANT_GAUCHE_ARRIERE,GPIO.OUT)
 
 	#Arrière Droit
-	GPIO.setup(20,GPIO.OUT)
-	GPIO.setup(21,GPIO.OUT)
+	GPIO.setup(ARRIERE_DROIT_AVANT,GPIO.OUT)
+	GPIO.setup(ARRIERE_DROIT_ARRIERE,GPIO.OUT)
 	#Arrière Gauche
-	GPIO.setup(19,GPIO.OUT)
-	GPIO.setup(26,GPIO.OUT)
+	GPIO.setup(ARRIERE_GAUCHE_AVANT,GPIO.OUT)
+	GPIO.setup(ARRIERE_GAUCHE_ARRIERE,GPIO.OUT)
 
 	#Deffinition des entrées GPIO
 
 	#Detecteur Haut
-	GPIO.setup(4,GPIO.IN)
+	GPIO.setup(DETECTEUR_AVANT,GPIO.IN)
 	#Detecteur Gauche
-	GPIO.setup(17,GPIO.IN)
+	GPIO.setup(DETECTEUR_GAUCHE,GPIO.IN)
 	#Detecteur Droit
-	GPIO.setup(18,GPIO.IN)
+	GPIO.setup(DETECTEUR_DROIT,GPIO.IN)
 
 #Déaloue les différents ports GPIO
 def unsetGPIO():
@@ -45,46 +56,46 @@ def unsetGPIO():
 #Arret complet du robot
 def Stop():
 	#Mise a 0 Avancer
-	GPIO.output(12, 0)
-	GPIO.output(16, 0)
-	GPIO.output(6, 0)
-	GPIO.output(13, 0)
+	GPIO.output(AVANT_DROIT_AVANT, 0)
+	GPIO.output(AVANT_GAUCHE_AVANT, 0)
+	GPIO.output(ARRIERE_DROIT_AVANT, 0)
+	GPIO.output(ARRIERE_GAUCHE_AVANT, 0)
 
 	#Mise a 0 Reculer
-	GPIO.output(20, 0)
-	GPIO.output(21, 0)
-	GPIO.output(19, 0)
-	GPIO.output(26, 0)
+	GPIO.output(AVANT_DROIT_ARRIERE, 0)
+	GPIO.output(AVANT_GAUCHE_ARRIERE, 0)
+	GPIO.output(ARRIERE_DROIT_ARRIERE, 0)
+	GPIO.output(ARRIERE_GAUCHE_ARRIERE, 0)
 
 
 #Marche avant du robot
 def Avancer():
 	Stop()
 
-	GPIO.output(12, 1)
-	GPIO.output(16, 1)
-	GPIO.output(6, 1)
-	GPIO.output(13, 1)
+	GPIO.output(AVANT_DROIT_AVANT, 1)
+	GPIO.output(AVANT_GAUCHE_AVANT, 1)
+	GPIO.output(ARRIERE_DROIT_AVANT, 1)
+	GPIO.output(ARRIERE_GAUCHE_AVANT, 1)
 
 #Marche arrière du robot
 def Reculer():
 	Stop()
 
-	GPIO.output(20, 1)
-	GPIO.output(21, 1)
-	GPIO.output(19, 1)
-	GPIO.output(26, 1)
+	GPIO.output(AVANT_DROIT_ARRIERE, 1)
+	GPIO.output(AVANT_GAUCHE_ARRIERE, 1)
+	GPIO.output(ARRIERE_DROIT_ARRIERE, 1)
+	GPIO.output(ARRIERE_GAUCHE_ARRIERE, 1)
 
 #Tourner a droite durant n ms
 def Droite(n):
 	Stop()
 
 	#Mise en marche avant des moteurs gauche
-	GPIO.output(6, 1)
-	GPIO.output(13, 1)
+	GPIO.output(AVANT_GAUCHE_AVANT, 1)
+	GPIO.output(ARRIERE_GAUCHE_AVANT, 1)
 	#Mise en marche arrière des moteurs droite
-	GPIO.output(20, 1)
-	GPIO.output(21, 1)
+	GPIO.output(AVANT_DROIT_ARRIERE, 1)
+	GPIO.output(ARRIERE_DROIT_ARRIERE, 1)
 
 	time.sleep(n)
 
@@ -95,11 +106,11 @@ def Gauche(n):
 	Stop()
 
 	#Mise en marche avant des moteurs droite
-	GPIO.output(12, 1)
-	GPIO.output(16, 1)
+	GPIO.output(AVANT_DROIT_AVANT, 1)
+	GPIO.output(ARRIERE_DROIT_AVANT, 1)
 	#Mise en marche arrière des moteurs gauche
-	GPIO.output(19, 1)
-	GPIO.output(26, 1)
+	GPIO.output(AVANT_GAUCHE_ARRIERE, 1)
+	GPIO.output(ARRIERE_GAUCHE_ARRIERE, 1)
 
 	time.sleep(n)
 
@@ -110,21 +121,21 @@ def Gauche(n):
 
 #Renvoie un bouléen en fonction de la présence d'un mur devant
 def murDevant():
-	if(GPIO.input(4)):
+	if(GPIO.input(DETECTEUR_AVANT)):
 		return True
 	else:
 		return False
 
 #Renvoie un bouléen en fonction de la présence d'un mur a gauche
 def murGauche():
-	if(GPIO.input(17)):
+	if(GPIO.input(DETECTEUR_GAUCHE)):
 		return True
 	else:
 		return False
 
 #Renvoie un bouléen en fonction de la présence d'un mur a droite
 def murDroit():
-	if(GPIO.input(18)):
+	if(GPIO.input(DETECTEUR_DROIT)):
 		return True
 	else:
 		return False
