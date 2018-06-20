@@ -6,6 +6,7 @@ import time
 import os
 import glob
 
+#Déclaration des constantes
 AVANT_DROIT_AVANT = 12
 AVANT_DROIT_ARRIERE = 16
 AVANT_GAUCHE_AVANT = 6
@@ -17,6 +18,7 @@ ARRIERE_GAUCHE_ARRIERE = 26
 DETECTEUR_AVANT = 4
 DETECTEUR_GAUCHE = 17
 DETECTEUR_DROIT = 18
+
 #Initialise les ports GPIO
 def setGPIO():
 	#Initialisation GPIO
